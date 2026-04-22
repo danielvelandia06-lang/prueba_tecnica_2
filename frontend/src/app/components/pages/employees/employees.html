@@ -1,0 +1,84 @@
+<h2>Empleados</h2>
+
+<!-- 🔽 FORMULARIO -->
+  <div class="row mb-3">
+    <div class="col">
+      <input type="number" [(ngModel)]="newEmp.employeeCode" placeholder="Departamento" required>
+      <br>
+      <input [(ngModel)]="newEmp.name" placeholder="Nombre">
+      <br>
+      <input [(ngModel)]="newEmp.lastname1" placeholder="Apellido 1">
+      <br>
+      <input [(ngModel)]="newEmp.lastname2" placeholder="Apellido 2">
+      <br>
+      <input type="number" [(ngModel)]="newEmp.codeDepartment" placeholder="Departamento">
+      <br>
+      <button (click)="save()" [disabled]="!newEmp.employeeCode" class="btn btn-primary" >
+        {{ editing ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button (click)="loadEmployees()">Listar empleados</button>
+      <button *ngIf="editing" (click)="resetForm()">Cancelar</button>
+    </div>
+  </div>
+
+<hr>
+
+<!-- 🔽 FILTRO POR DEPARTAMENTO -->
+<div *ngIf="selectedDepartment">
+  <h3>Departamento: {{ selectedDepartment.nameDepartment }}</h3>
+</div>
+
+<!-- ⏳ CARGANDO -->
+<p *ngIf="loading">Cargando empleados...</p>
+
+<!-- 📊 LISTA -->
+
+<table class="table table-striped-columns">
+  <thead>
+    <th scope="col">Codigo</th>
+    <th scope="col">Nombres</th>
+    <th scope="col">Apellido 1</th>
+    <th scope="col">Apellido 2</th>
+    <th scope="col">Departamento</th>
+  </thead>
+  <tbody table-group-divider>
+    @for (d of employees; track d._id){
+    <tr>
+      <td>
+        {{ d.employeeCode }}
+      </td>
+      <td>
+        {{ d.name }}
+      </td>
+      <td>
+        {{ d.lastname1 }}
+      </td>
+      <td>
+        {{ d.lastname2 }}
+      </td>
+      <td>
+        {{ d.code_department }}
+      </td>
+      <button (click)="edit(d)">Editar</button>
+      <button (click)="delete(d.employeeCode)">Eliminar</button>
+    </tr>
+  }
+  </tbody>
+</table>
+<!-- ❌ VACÍO -->
+<p *ngIf="!loading && employees.length === 0">
+  No hay empleados
+</p>
+
+<!-- ---------------------------
+<ul *ngIf="!loading && employees.length > 0">
+  <li *ngFor="let e of employees">
+
+    {{ e.name }} {{ e.lastname1 }} {{ e.lastname2 }}
+
+    <button (click)="edit(e)">Editar</button>
+    <button (click)="delete(e.employeeCode)">Eliminar</button>
+
+  </li>
+</ul> -->
+

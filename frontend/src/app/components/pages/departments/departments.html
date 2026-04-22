@@ -1,0 +1,48 @@
+<h2>Departamentos</h2>
+
+<input type="number" [(ngModel)]="newDept.codeDepartment" placeholder="Código" [disabled]="editing">
+<input [(ngModel)]="newDept.nameDepartment" placeholder="Nombre">
+
+<button (click)="save()">
+  {{ editing ? 'Actualizar' : 'Guardar' }}
+</button>
+
+<button If="editing" (click)="resetForm()">Cancelar</button>
+
+<table class="table table-striped-columns">
+  <thead>
+    <th scope="col">Nombres</th>
+    <th scope="col">Codigos</th>
+  </thead>
+  <tbody table-group-divider>
+    @for (d of departments; track d._id){
+    <tr>
+      <td>
+        {{ d.nameDepartment }}
+      </td>
+      <td>
+        {{ d.codeDepartment }}
+      </td>
+      <button (click)="edit(d)">Editar</button>
+      <button (click)="delete(d.codeDepartment)">Eliminar</button>
+      <button (click)="loadEmployees(d)">Ver empleados</button>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<hr>
+
+<h3 *ngIf="selectedDepartment">
+  Empleados de {{ selectedDepartment.nameDepartment }}
+</h3>
+
+<ul *ngIf="employees.length > 0; else noData">
+  <li *ngFor="let e of employees">
+    {{ e.name }} {{ e.lastname1 }} {{ e.lastname2 }}
+  </li>
+</ul>
+
+<ng-template #noData>
+  <p>No hay empleados en este departamento</p>
+</ng-template>
